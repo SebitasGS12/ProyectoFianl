@@ -1,0 +1,318 @@
+
+create database bd_gci;
+use bd_gci;
+
+ CREATE TABLE `persona` (
+   `Dni_Persona` int(11) NOT NULL,
+   `nombrePersona` varchar(40) DEFAULT NULL,
+   `apellidosPersona` varchar(40) DEFAULT NULL,
+   `correo` varchar(30) DEFAULT NULL,
+   `edad` int(11) DEFAULT NULL,
+	`contraseña` varchar(40) ,
+   PRIMARY KEY (`Dni_Persona`)
+ );
+
+CREATE TABLE `admin` (
+   `ID_admin` varchar(5) NOT NULL,
+   `dni_admin` int(11) NOT NULL,
+   PRIMARY KEY (`ID_admin`),
+   KEY `FK_DNI` (`dni_admin`),
+   CONSTRAINT `FK_DNI` FOREIGN KEY (`dni_admin`) REFERENCES `persona` (`Dni_Persona`)
+ ); 
+ 
+
+CREATE TABLE `empleado` (
+   `ID_Emp` varchar(3) NOT NULL,
+   `Puesto` varchar(3) DEFAULT NULL,
+   `DNI_Emp` int(11) NOT NULL,
+   PRIMARY KEY (`ID_Emp`),
+   KEY `FK_DNI_Emp` (`DNI_Emp`),
+   CONSTRAINT `FK_DNI_Emp` FOREIGN KEY (`DNI_Emp`) REFERENCES `persona` (`Dni_Persona`)
+ ); 
+
+
+CREATE TABLE `productos` (
+   `ID_pro` int(11) NOT NULL,
+   `nombre` varchar(45) NOT NULL,
+   `precioU` double NOT NULL,
+   `detalle` varchar(45) DEFAULT NULL,
+   PRIMARY KEY (`ID_pro`)
+ ) ;
+ 
+ 
+ CREATE TABLE `producto_empleado` (
+   `ID_Pro_Emp` int(11) NOT NULL,
+   `ID_Emp` varchar(3) DEFAULT NULL,
+   `ID_pro` int(11) DEFAULT NULL,
+   `stock` int(11) DEFAULT NULL,
+   PRIMARY KEY (`ID_Pro_Emp`),
+   KEY `FK_ID_Emp` (`ID_Emp`),
+   KEY `FK_ID_Pro` (`ID_pro`),
+   CONSTRAINT `FK_ID_Emp` FOREIGN KEY (`ID_Emp`) REFERENCES `empleado` (`ID_Emp`),
+   CONSTRAINT `FK_ID_Pro` FOREIGN KEY (`ID_pro`) REFERENCES `productos` (`ID_pro`)
+ ) ;
+
+ 
+  
+ CREATE TABLE `orden` (
+   `ID_Orden` varchar(15) NOT NULL,
+   `cantidad` int(11) DEFAULT NULL,
+   `peso` double DEFAULT NULL,
+   `ID_Pro_Emp` int(11) NOT NULL,
+   `ID_Emp` varchar(3) DEFAULT NULL,
+   `subTotal` double NOT NULL,
+   PRIMARY KEY (`ID_Orden`),
+   KEY `FK_ID_Emp_orden` (`ID_Emp`),
+   KEY `FK_ID_Pro_Emp_orden` (`ID_Pro_Emp`),
+   CONSTRAINT `FK_ID_Pro_Emp_orden` FOREIGN KEY (`ID_Pro_Emp`) REFERENCES `producto_empleado` (`ID_Pro_Emp`),
+   CONSTRAINT `FK_ID_Emp_orden` FOREIGN KEY (`ID_Emp`) REFERENCES `empleado` (`ID_Emp`)
+ ) ;
+ 
+ 
+ 
+ CREATE TABLE `venta` (
+   `ID_venta` varchar(20) NOT NULL,
+   `ID_Orden` varchar(15) DEFAULT NULL,
+   `precioTotal` double(6,2) DEFAULT NULL,
+   PRIMARY KEY (`ID_venta`),
+   KEY `FK_ID_Orden` (`ID_Orden`),
+   CONSTRAINT `FK_ID_Orden` FOREIGN KEY (`ID_Orden`) REFERENCES `orden` (`ID_Orden`)
+ ) ;
+ 
+
+ 
+ insert into persona value (98342465,'Ricardo José','Huaman Urtiaga','iRicardoJo@ventas.com',34,'urtiaga92920');
+ insert into persona value (73435810,'Carlos Alberto','Quispe Flores','Calros012@ventas.com',30,'quispevens2');/*admin*/
+ insert into persona value (83729492,'Luis Enrique','Sanchez Garcia','eNriques12ls@ventas.com',29,'rnsi2323');
+ insert into persona value (93849572,'Cristhian Alex','Rodriguez Rojas','CrishtanRoka01@ventas.com',31,'crisk139');
+ insert into persona value (27273929,'Ruth Dulcina','Vasquez Mamani','ManesDucin_12@ventas.com',33,'x993maneusrut');/*admin*/
+ insert into persona value (30132941,'Manuel José','Lopez Ramos','ManoLope_12@ventas.com',35,'iaiamaros131');
+ insert into persona value (94727222,'Jorge Angel','Perez Torres','nangel_112ro@ventas.com',30,'jorhd2e0302');
+ insert into persona value (78472902,'Ricardo Agusto','Diaz Gonzales','rics031_d@ventas.com',32,'ricasrfo2002');
+ insert into persona value (84729393,'Carolina Alfonsina','Ramirez Mendoza','carol_13as@ventas.com',31,'anfosne2202442');
+ insert into persona value (39300282,'Julianna Carmen','Chavez Espinoza','jualina-232@ventas.com',40,'0402chabvecarm0');
+
+
+
+ insert into admin value ('00001',73435810);
+ insert into admin value ('00002',27273929);
+
+
+ insert into empleado value ('111','C31',98342465);
+ insert into empleado value ('112','A22',83729492);
+ insert into empleado value ('113','B03',93849572);
+ insert into empleado value ('114','D42',30132941);
+ 
+ insert into empleado value ('115','F25',94727222);
+ insert into empleado value ('116','B16',78472902);
+ insert into empleado value ('117','C07',84729393);
+ insert into empleado value ('118','A13',39300282);
+
+ insert into productos value (000001,'arroz',139.00,'Costal de arroz San Cristaobal');
+ insert into productos value (000002,'camote',63.00,'Costal de camote de Ayacucho');
+ insert into productos value (000003,'papa',89.00,'Costal de papa de la Sierra');
+ insert into productos value (000004,'cebolla',58.00,'Costal de cebolla de la Selva');
+ insert into productos value (000005,'choclo',133.00,'Costal de choclo de Apurimac');
+ insert into productos value (000006,'yuca',111.00,'Costal de la yuca de San Antonio');
+ insert into productos value (000007,'aceite',196.00,'Paquete de 15L Olivar');
+ insert into productos value (000008,'quinua',320.00,'Costal de quinua de Olmeiro');
+ insert into productos value (000009,'lenteja',170.00,'Costal de lenteja de la Sierra');
+ insert into productos value (0000010,'azucar',150.00,'Costal de azucar de Altomayo');
+ insert into productos value (0000011,'frejol',210.00,'Costal de frejol del Norte');
+ 
+/**PROCEDIMIENTOS DE BD ************/
+-- Procedimeientos Vendedores -- ListarVendedores
+drop procedure if exists ListarVendedores;
+
+delimiter @@
+create procedure ListarVendedores()
+begin
+	
+	select e.DNI_Emp,e.ID_Emp,e.Puesto,p.nombrePersona,p.apellidosPersona
+    from persona p inner join empleado e
+    where e.DNI_Emp = p.Dni_Persona;
+
+end @@
+delimiter ;
+
+-- call ListarVendedores();
+
+
+-- Procedimeientos Vendedores -- BuscarVendedores
+drop procedure if exists BuscarVendedoresID;
+
+delimiter @@
+create procedure BuscarVendedoresID(codigo varchar(3))
+begin
+	
+	select e.DNI_Emp,e.ID_Emp,e.Puesto,p.nombrePersona,p.apellidosPersona
+    from persona p inner join empleado e
+    where e.DNI_Emp = p.Dni_Persona and e.ID_Emp = codigo ;
+
+end @@
+delimiter ;
+
+-- call BuscarVendedoresID("111");
+
+-- Procedimeientos Vendedores -- BuscarVendedoresDNI
+drop procedure if exists BuscarVendedoresDNI;
+
+delimiter @@
+create procedure BuscarVendedoresDNI(xdni int)
+begin
+	
+	select e.DNI_Emp,e.ID_Emp,e.Puesto,p.nombrePersona,p.apellidosPersona
+    from persona p inner join empleado e
+    where e.DNI_Emp = p.Dni_Persona and e.DNI_Emp = xdni ;
+
+end @@
+delimiter ;
+
+-- call BuscarVendedoresDNI(98342465);
+
+-- Procedimeientos Vendedores -- InsertarVendedores
+
+drop procedure if exists InsertarVendedores;
+
+delimiter @@
+create procedure InsertarVendedores(id varchar(3), puest varchar(3),dni int(11))
+begin
+	
+	insert empleado values (id,puest,dni);
+
+end @@
+delimiter ;
+
+-- call InsertarVendedores();
+
+-- Procedimeientos Vendedores -- ModificarVendedores
+
+drop procedure if exists ModificarVendedores;
+
+delimiter @@
+create procedure ModificarVendedores(xid varchar(3), xpuest varchar(3),xdniEmp int(11))
+begin
+	
+	update empleado set Puesto = xpuest, DNI_Emp = xdniEmp 
+    where ID_Emp = xid ;
+
+end @@
+delimiter ;
+
+-- call ModificarVendedores();
+
+-- Procedimeientos Vendedores -- EliminarVendedores
+
+drop procedure if exists EliminarVendedores;
+
+delimiter @@
+create procedure EliminarVendedores(codi varchar(3))
+begin
+	
+	delete from empleado where ID_Emp = codi;
+
+end @@
+delimiter ;
+
+-- call EliminarVendedores();
+
+
+
+
+/**Procedimientos Persona**/
+
+-- Procedimeientos Persona -- ListarPersona
+drop procedure if exists ListarPersona;
+
+delimiter @@
+create procedure ListarPersona()
+begin
+	
+	select * from persona;
+
+end @@
+delimiter ;
+
+-- call ListarPersona();
+
+-- Procedimeientos Persona -- BuscarPersonaDNI
+drop procedure if exists BuscarPersonaDNI;
+
+delimiter @@
+create procedure BuscarPersonaDNI(dniPersona int(11))
+begin
+	
+	select * from persona where Dni_persona = dniPersona;
+
+end @@
+delimiter ;
+
+-- call BuscarPersonaDNI("98342465");
+
+ -- Procedimeientos Persona -- InsertarPersona
+
+drop procedure if exists InsertarPersona;
+
+delimiter @@
+create procedure InsertarPersona( xdnipersona int(11),xnopersona varchar(40) ,xappersona varchar(40),xcorreo varchar(30), xedad int,xcontraseña varchar(40))
+begin
+	
+	insert persona values (xdnipersona,xnopersona,xappersona,xcorreo,xedad,xcontraseña);
+
+end @@
+delimiter ;
+
+-- call InsertarPersona();
+
+-- Procedimeientos Persona -- ModificarPersona
+drop procedure if exists ModificarPersona
+
+delimiter @@
+create procedure ModificarPersona( xdniper int(11),xnoper varchar(40) ,xapper varchar(40),xcorr varchar(30), xed int,xcontra varchar(40))
+begin
+	/*Aca se realiza el procedimiento*/
+    
+    update persona set nombrePersona = xnoper , apellidosPersona = xapper , correo = xcorr , edad =  xed , contraseña = xcontra
+	where Dni_Persona = xdniper;
+end @@
+delimiter ; -- Por sintaxis deja un espacio
+
+-- call ModificarPersona();
+
+-- Procedimeientos Persona - EliminarPersona
+drop procedure if exists EliminarPersona
+
+delimiter @@
+create procedure EliminarPersona(dniper char(6))
+begin
+	/*Aca se realiza el procedimiento*/
+    
+    delete from persona
+    where Dni_Persona = dniper;
+    
+end @@
+delimiter ; -- Por sintaxis deja un espacio
+
+-- call EliminarPersona();
+
+
+
+
+ 
+/**Procedimientos Admin**/
+-- Procedimeientos Admin -- BuscarAdminDNI
+drop procedure if exists BuscarAdminDNI;
+
+delimiter @@
+create procedure BuscarAdminDNI(dniadmin int(11))
+begin
+	
+	select * from admin where dni_admin = dniadmin;
+
+end @@
+delimiter ;
+
+-- call BuscarAdminDNI("98342465");
+
+
+
