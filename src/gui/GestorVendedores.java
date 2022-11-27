@@ -83,11 +83,6 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 			}
 		});
 	}
-
-	/**
-	 * Create the dialog.
-	*/
-	
 	
 	public GestorVendedores(int code) {
 		Dni = code;
@@ -305,16 +300,8 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 						nPer.Eliminar(dniPer);
 						JOptionPane.showMessageDialog(null, "Persona Eliminado");
 						CargarTablaPersonas();
-					}
-					
-					
-
-					
+					}					
 				}
-				
-				
-				
-				
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, e2);
 			}

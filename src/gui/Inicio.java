@@ -136,5 +136,4 @@ public class Inicio extends JFrame {
 		contentPane.add(lblFondo);
 		
 	}
-
 }

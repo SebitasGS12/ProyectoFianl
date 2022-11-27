@@ -36,7 +36,34 @@ public class NgcProducto{
 		ObjProducto.EliminarProducto(cod);
 	}
 	
+	public int CodigoAutogenerado() {
+		
+		int id = (Lista().get(tamanio()-1)).getIdProducto();
+		
+		if( tamanio()  == 0) {
+			return 1001;
+		}else {
+			return id+1 ;
+		}
+			
+	}
 	
+	private int tamanio() {
+		return  Lista().size();
+	}
+	
+	public ArrayList<Producto> FiltroID() {
+		return ObjProducto.OrdenarID();
+	}
+	public ArrayList<Producto> FiltroNombre() {
+		return ObjProducto.OrdenarNombre();
+	}
+	public ArrayList<Producto> FiltroPrecio() {
+		return ObjProducto.OrdenarPrecio();
+	}
+	public ArrayList<Producto> filtroDetalle() {
+		return ObjProducto.OrdenarDetalle();
+	}
 	
 
 }

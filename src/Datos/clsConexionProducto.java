@@ -38,101 +38,188 @@ public class clsConexionProducto {
 	
 	//Metodo Listar
 	
-		public ArrayList<Producto> ListarProducto(){
-			
-			Lista = new ArrayList<>();
-			String SQL = "call ListarProducto()";
-			try {
-				pa = cn.prepareCall(SQL);
-				rs = pa.executeQuery();
-				while (rs.next()) {
-					Producto ObjP = new Producto(
-							rs.getInt("ID_pro"),
-							rs.getString("nombre"),
-							rs.getDouble("precioU"),
-							rs.getString("detalle")
-							);
-					Lista.add(ObjP);
+	public ArrayList<Producto> ListarProducto(){
+		
+		Lista = new ArrayList<>();
+		String SQL = "call ListarProducto()";
+		try {
+			pa = cn.prepareCall(SQL);
+			rs = pa.executeQuery();
+			while (rs.next()) {
+				Producto ObjP = new Producto(
+						rs.getInt("ID_pro"),
+						rs.getString("nombre"),
+						rs.getDouble("precioU"),
+						rs.getString("detalle")
+						);
+				Lista.add(ObjP);
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage() );
+		}
+		return Lista;
+	}
+	
+	//Metodo BuscarProducto
+	public Producto BuscarProducto(int id) {
+		Producto ObjP = null;
+		
+		try {
+			pa = cn.prepareCall("call BuscarProducto(?)");
+			pa.setInt(1, id);
+			rs = pa.executeQuery();
+			if (rs.next()) {
+				ObjP = new Producto(
+						rs.getInt("ID_pro"),
+						rs.getString("nombre"),
+						rs.getDouble("precioU"),
+						rs.getString("detalle")
+						);
 				}
 			}
-			catch (Exception e) {
-				System.out.println(e.getMessage() );
-			}
-			return Lista;
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
+		return ObjP;
 		
-		//Metodo BuscarProducto
-		public Producto BuscarProducto(int id) {
-			Producto ObjP = null;
+	}
+	
+	// Método InsertarProducto
+	public void InsertarProducto(Producto ObjP) {
+					
+		try {
+			pa = cn.prepareCall("call InsertarProducto(?,?,?,?)");
+			pa.setInt(1, ObjP.getIdProducto());
+			pa.setString(2, ObjP.getNom_pro());
+			pa.setDouble(3, ObjP.getPrecio());
+			pa.setString(4, ObjP.getDetalle());
 			
-			try {
-				pa = cn.prepareCall("call BuscarProducto(?)");
-				pa.setInt(1, id);
-				rs = pa.executeQuery();
-				if (rs.next()) {
-					ObjP = new Producto(
-							rs.getInt("ID_pro"),
-							rs.getString("nombre"),
-							rs.getDouble("precioU"),
-							rs.getString("detalle")
-							);
-					}
-				}
-			catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			return ObjP;
-			
+			pa.executeUpdate();
 		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 		
-		// Método InsertarProducto
-		public void InsertarProducto(Producto ObjP) {
+	
+	// Método ModificarProducto
+	public void ModificarProducto(Producto ObjP) {
 						
-			try {
-				pa = cn.prepareCall("call InsertarProducto(?,?,?,?)");
-				pa.setInt(1, ObjP.getIdProducto());
-				pa.setString(2, ObjP.getNom_pro());
-				pa.setDouble(3, ObjP.getPrecio());
-				pa.setString(4, ObjP.getDetalle());
-				
-				pa.executeUpdate();
-			}
-			catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
+		try {
+			pa = cn.prepareCall("call ModificarProducto(?,?,?,?)");
+			pa.setInt(1, ObjP.getIdProducto());
+			pa.setString(2, ObjP.getNom_pro());
+			pa.setDouble(3, ObjP.getPrecio());
+			pa.setString(4, ObjP.getDetalle());
+			pa.executeUpdate();
 		}
-			
-		
-		// Método ModificarProducto
-		public void ModificarProducto(Producto ObjP) {
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	// Método EliminarProducto
+	public void EliminarProducto(int codigo) {
 							
-			try {
-				pa = cn.prepareCall("call ModificarProducto(?,?,?,?)");
-				pa.setInt(1, ObjP.getIdProducto());
-				pa.setString(2, ObjP.getNom_pro());
-				pa.setDouble(3, ObjP.getPrecio());
-				pa.setString(4, ObjP.getDetalle());
-				pa.executeUpdate();
-			}
-			catch (Exception e) {
-				System.out.println(e.getMessage());
+		try {
+			pa = cn.prepareCall("call EliminarProducto(?)");
+			pa.setInt(1, codigo);
+			pa.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public ArrayList<Producto> OrdenarID(){
+		Lista = new ArrayList<>();
+		String SQL = "select * from productos order by ID_pro";
+		try {
+			pa = cn.prepareCall(SQL);
+			rs = pa.executeQuery();
+			while (rs.next()) {
+				Producto ObjP = new Producto(
+						rs.getInt("ID_pro"),
+						rs.getString("nombre"),
+						rs.getDouble("precioU"),
+						rs.getString("detalle")
+						);
+				Lista.add(ObjP);
 			}
 		}
+		catch (Exception e) {
+			System.out.println(e.getMessage() );
+		}
+		return Lista;
 		
-		// Método EliminarProducto
-		public void EliminarProducto(int codigo) {
-								
-			try {
-				pa = cn.prepareCall("call EliminarProducto(?)");
-				pa.setInt(1, codigo);
-				pa.executeUpdate();
-			}
-			catch (Exception e) {
-				System.out.println(e.getMessage());
+	}
+	public ArrayList<Producto> OrdenarNombre(){
+		Lista = new ArrayList<>();
+		String SQL = "select * from productos order by nombre";
+		try {
+			pa = cn.prepareCall(SQL);
+			rs = pa.executeQuery();
+			while (rs.next()) {
+				Producto ObjP = new Producto(
+						rs.getInt("ID_pro"),
+						rs.getString("nombre"),
+						rs.getDouble("precioU"),
+						rs.getString("detalle")
+						);
+				Lista.add(ObjP);
 			}
 		}
+		catch (Exception e) {
+			System.out.println(e.getMessage() );
+		}
+		return Lista;
+	}
+	public ArrayList<Producto> OrdenarPrecio(){
+		Lista = new ArrayList<>();
+		String SQL = "select * from productos order by precioU";
+		try {
+			pa = cn.prepareCall(SQL);
+			rs = pa.executeQuery();
+			while (rs.next()) {
+				Producto ObjP = new Producto(
+						rs.getInt("ID_pro"),
+						rs.getString("nombre"),
+						rs.getDouble("precioU"),
+						rs.getString("detalle")
+						);
+				Lista.add(ObjP);
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage() );
+		}
+		return Lista;
+		
+	}
 	
-	
+	public ArrayList<Producto> OrdenarDetalle(){
+		Lista = new ArrayList<>();
+		String SQL = "select * from productos order by detalle";
+		try {
+			pa = cn.prepareCall(SQL);
+			rs = pa.executeQuery();
+			while (rs.next()) {
+				Producto ObjP = new Producto(
+						rs.getInt("ID_pro"),
+						rs.getString("nombre"),
+						rs.getDouble("precioU"),
+						rs.getString("detalle")
+						);
+				Lista.add(ObjP);
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage() );
+		}
+		return Lista;
+		
+	}
 	
 	
 

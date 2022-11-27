@@ -12,7 +12,6 @@ import javax.mail.Transport;
 
 
 public class EmailSender {
-
 	
 	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
 	    //La dirección de correo de envío

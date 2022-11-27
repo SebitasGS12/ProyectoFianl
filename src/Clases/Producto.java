@@ -17,14 +17,10 @@ public class Producto {
 		this.detalle = detalle;
 	}
 	
-	//	Constructor sin detalle o descripcion
-	public Producto(int idProducto, String nom_pro ,  double precio) {
-		this.idProducto = idProducto;
-		this.nom_pro = nom_pro;
-		this.precio = precio;
+
+	public Producto() {
+		
 	}
-	
-	
 	
 	public int getIdProducto() {
 		return idProducto;
