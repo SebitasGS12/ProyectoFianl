@@ -39,6 +39,8 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import javax.swing.JMenuItem;
 import java.awt.event.MouseListener;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 
 public class GestorVendedores extends JDialog implements ActionListener, MouseListener {
 	
@@ -66,6 +68,9 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 	private JMenuItem mnConvEmp;
 	private DefaultTableModel MiModelo;
 	private String Estado = "";
+	private JMenuBar menuBar;
+	private JMenu mnNewMenu;
+	private JMenuItem mntmNewMenuItem;
 	
 	/**
 	 * Launch the application.
@@ -172,6 +177,16 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 		btnVerPersonas.setIcon(new ImageIcon(GestorVendedores.class.getResource("/img/comercio.png")));
 		btnVerPersonas.setBounds(747, 36, 147, 145);
 		getContentPane().add(btnVerPersonas);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnNewMenu = new JMenu("Mas");
+		menuBar.add(mnNewMenu);
+		
+		mntmNewMenuItem = new JMenuItem("Exportar");
+		mntmNewMenuItem.addActionListener(this);
+		mnNewMenu.add(mntmNewMenuItem);
 
 		CargarTabla();
 		
@@ -207,6 +222,9 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == mntmNewMenuItem) {
+			actionPerformedMntmNewMenuItem(e);
+		}
 		if (e.getSource() == btnEditar) {
 			actionPerformedBtnEditar(e);
 		}
@@ -476,5 +494,11 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 		CargarTabla();
 		
 	
+	}
+	protected void actionPerformedMntmNewMenuItem(ActionEvent e) {
+		
+		
+		
+		
 	}
 }

@@ -6,9 +6,9 @@ use bd_gci;
    `Dni_Persona` int(11) NOT NULL,
    `nombrePersona` varchar(40) DEFAULT NULL,
    `apellidosPersona` varchar(40) DEFAULT NULL,
-   `correo` varchar(30) DEFAULT NULL,
+   `correo` varchar(80) DEFAULT NULL,
    `edad` int(11) DEFAULT NULL,
-	`contraseÃ±a` varchar(40) ,
+	`contraseña` varchar(40) ,
    PRIMARY KEY (`Dni_Persona`)
  );
 
@@ -52,6 +52,8 @@ CREATE TABLE `productos` (
    CONSTRAINT `FK_ID_Pro` FOREIGN KEY (`ID_pro`) REFERENCES `productos` (`ID_pro`)
  ) ;
 
+
+
  
   
  CREATE TABLE `orden` (
@@ -81,12 +83,12 @@ CREATE TABLE `productos` (
  
 
  
- insert into persona value (98342465,'Ricardo JosÃ©','Huaman Urtiaga','iRicardoJo@ventas.com',34,'urtiaga92920');
+ insert into persona value (98342465,'Ricardo José','Huaman Urtiaga','iRicardoJo@ventas.com',34,'urtiaga92920');
  insert into persona value (73435810,'Carlos Alberto','Quispe Flores','Calros012@ventas.com',30,'quispevens2');/*admin*/
  insert into persona value (83729492,'Luis Enrique','Sanchez Garcia','eNriques12ls@ventas.com',29,'rnsi2323');
  insert into persona value (93849572,'Cristhian Alex','Rodriguez Rojas','CrishtanRoka01@ventas.com',31,'crisk139');
  insert into persona value (27273929,'Ruth Dulcina','Vasquez Mamani','ManesDucin_12@ventas.com',33,'x993maneusrut');/*admin*/
- insert into persona value (30132941,'Manuel JosÃ©','Lopez Ramos','ManoLope_12@ventas.com',35,'iaiamaros131');
+ insert into persona value (30132941,'Manuel José','Lopez Ramos','ManoLope_12@ventas.com',35,'iaiamaros131');
  insert into persona value (94727222,'Jorge Angel','Perez Torres','nangel_112ro@ventas.com',30,'jorhd2e0302');
  insert into persona value (78472902,'Ricardo Agusto','Diaz Gonzales','rics031_d@ventas.com',32,'ricasrfo2002');
  insert into persona value (84729393,'Carolina Alfonsina','Ramirez Mendoza','carol_13as@ventas.com',31,'anfosne2202442');
@@ -102,25 +104,156 @@ CREATE TABLE `productos` (
  insert into empleado value ('112','A22',83729492);
  insert into empleado value ('113','B03',93849572);
  insert into empleado value ('114','D42',30132941);
- 
  insert into empleado value ('115','F25',94727222);
  insert into empleado value ('116','B16',78472902);
  insert into empleado value ('117','C07',84729393);
  insert into empleado value ('118','A13',39300282);
 
- insert into productos value (000001,'arroz',139.00,'Costal de arroz San Cristaobal');
- insert into productos value (000002,'camote',63.00,'Costal de camote de Ayacucho');
- insert into productos value (000003,'papa',89.00,'Costal de papa de la Sierra');
- insert into productos value (000004,'cebolla',58.00,'Costal de cebolla de la Selva');
- insert into productos value (000005,'choclo',133.00,'Costal de choclo de Apurimac');
- insert into productos value (000006,'yuca',111.00,'Costal de la yuca de San Antonio');
- insert into productos value (000007,'aceite',196.00,'Paquete de 15L Olivar');
- insert into productos value (000008,'quinua',320.00,'Costal de quinua de Olmeiro');
- insert into productos value (000009,'lenteja',170.00,'Costal de lenteja de la Sierra');
- insert into productos value (0000010,'azucar',150.00,'Costal de azucar de Altomayo');
- insert into productos value (0000011,'frejol',210.00,'Costal de frejol del Norte');
+select *  from productos;
+
+insert productos values (1011,'arroz San Cristobal',6.00,'kilogramo'),
+(1012,'camote de Ayacucho',3.00,'kilogramo'),
+(1013,'papa de la Sierra',2.00,'Kilogramo'),
+(1014,'cebolla de la Selva',4.00,'kilogramo'),
+(1015,'choclo de Apurimac',1.00,'unidad'),
+(1016,'Aceite cocinero',12.00,'unidad'),
+(1017,'yuca de San Antonio',7.00,'kilogramo'),
+(1018,'atún puramar',5.00,'unidad'),
+(1019,'maiz de Chiclayo',2.00,'kilogramo'),
+(1020,'quinua de Olmeiro',9.00,'kilogramo'),
+(1021,'mantequilla dulcina',6.00,'unidad'),
+(1022,'lenteja de la Sierra',3.00,'kilogramo'),
+(1023,'azucar de Altomayo',6.00,'kilogramo'),
+(1024,'Leche de tarro VIDA',4.00,'unidad'),
+(1025,'frejol del Norte',4.00,'kilogramo');
+
+
+
+
  
 /**PROCEDIMIENTOS DE BD ************/
+
+
+/*******Procedimientos Producto_Empleado*******/
+
+drop procedure if exists ListarProducto_Empleado;
+
+delimiter @@
+create procedure ListarProducto_Empleado()
+begin
+	
+	select *
+    from producto_empleado ;
+
+end @@
+delimiter ;
+
+-- call ListarProducto_Empleado();
+
+drop procedure if exists BuscarProducto_Empleado;
+
+delimiter @@
+create procedure BuscarProducto_Empleado(idproemp int(11))
+begin
+	
+	select * from productos where id_pro = codpro;
+
+end @@
+delimiter ;
+
+-- call BuscarProducto("1012");
+
+
+
+/*******Procedimientos Productos*******/
+
+
+drop procedure if exists ListarProducto;
+
+delimiter @@
+create procedure ListarProducto()
+begin
+	
+	select *
+    from productos ;
+
+end @@
+delimiter ;
+
+-- call ListarProducto();
+
+
+drop procedure if exists BuscarProducto;
+
+delimiter @@
+create procedure BuscarProducto(codpro int(11))
+begin
+	
+	select * from productos where id_pro = codpro;
+
+end @@
+delimiter ;
+
+-- call BuscarProducto("1012");
+
+drop procedure if exists InsertarProducto;
+
+delimiter @@
+create procedure InsertarProducto(idpro int(11), nompro varchar(45), prepro double,det varchar(45))
+begin
+	
+	insert productos values (idpro,nompro,prepro, det );
+
+end @@
+delimiter ;
+
+-- call InsertarProducto();
+
+
+
+
+drop procedure if exists ModificarProducto;
+
+delimiter @@
+create procedure ModificarProducto(idprox int(11), nomprox varchar(45), preprox double,detx varchar(45))
+begin
+	
+	update productos set nombre = nomprox, precioU = preprox , detalle = detx
+    where ID_pro = idprox ;
+
+end @@
+delimiter ;
+
+-- call ModificarProducto();
+
+drop procedure if exists EliminarProducto;
+
+delimiter @@
+create procedure EliminarProducto(idprodx int(11))
+begin
+	
+	delete from productos where ID_pro = idprodx;
+
+end @@
+delimiter ;
+
+-- call EliminarProducto();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- Procedimeientos Vendedores -- ListarVendedores
 drop procedure if exists ListarVendedores;
 
@@ -128,9 +261,8 @@ delimiter @@
 create procedure ListarVendedores()
 begin
 	
-	select e.DNI_Emp,e.ID_Emp,e.Puesto,p.nombrePersona,p.apellidosPersona
-    from persona p inner join empleado e
-    where e.DNI_Emp = p.Dni_Persona;
+	select *
+    from empleado ;
 
 end @@
 delimiter ;
@@ -145,9 +277,7 @@ delimiter @@
 create procedure BuscarVendedoresID(codigo varchar(3))
 begin
 	
-	select e.DNI_Emp,e.ID_Emp,e.Puesto,p.nombrePersona,p.apellidosPersona
-    from persona p inner join empleado e
-    where e.DNI_Emp = p.Dni_Persona and e.ID_Emp = codigo ;
+	select * from empleado where ID_Emp = codigo;
 
 end @@
 delimiter ;
@@ -161,9 +291,7 @@ delimiter @@
 create procedure BuscarVendedoresDNI(xdni int)
 begin
 	
-	select e.DNI_Emp,e.ID_Emp,e.Puesto,p.nombrePersona,p.apellidosPersona
-    from persona p inner join empleado e
-    where e.DNI_Emp = p.Dni_Persona and e.DNI_Emp = xdni ;
+	select *  from empleado where DNI_Emp = xdni ;
 
 end @@
 delimiter ;
@@ -254,10 +382,10 @@ delimiter ;
 drop procedure if exists InsertarPersona;
 
 delimiter @@
-create procedure InsertarPersona( xdnipersona int(11),xnopersona varchar(40) ,xappersona varchar(40),xcorreo varchar(30), xedad int,xcontraseÃ±a varchar(40))
+create procedure InsertarPersona( xdnipersona int(11),xnopersona varchar(40) ,xappersona varchar(40),xcorreo varchar(30), xedad int,xcontraseña varchar(40))
 begin
 	
-	insert persona values (xdnipersona,xnopersona,xappersona,xcorreo,xedad,xcontraseÃ±a);
+	insert persona values (xdnipersona,xnopersona,xappersona,xcorreo,xedad,xcontraseña);
 
 end @@
 delimiter ;
@@ -272,7 +400,7 @@ create procedure ModificarPersona( xdniper int(11),xnoper varchar(40) ,xapper va
 begin
 	/*Aca se realiza el procedimiento*/
     
-    update persona set nombrePersona = xnoper , apellidosPersona = xapper , correo = xcorr , edad =  xed , contraseÃ±a = xcontra
+    update persona set nombrePersona = xnoper , apellidosPersona = xapper , correo = xcorr , edad =  xed , contraseña = xcontra
 	where Dni_Persona = xdniper;
 end @@
 delimiter ; -- Por sintaxis deja un espacio
@@ -281,9 +409,10 @@ delimiter ; -- Por sintaxis deja un espacio
 
 -- Procedimeientos Persona - EliminarPersona
 drop procedure if exists EliminarPersona
-
 delimiter @@
-create procedure EliminarPersona(dniper char(6))
+
+create procedure EliminarPersona(dniper int(11))
+
 begin
 	/*Aca se realiza el procedimiento*/
     
@@ -293,7 +422,7 @@ begin
 end @@
 delimiter ; -- Por sintaxis deja un espacio
 
--- call EliminarPersona();
+-- call EliminarPersona(74973136);
 
 
 
@@ -313,6 +442,14 @@ end @@
 delimiter ;
 
 -- call BuscarAdminDNI("98342465");
+
+
+
+
+
+
+
+
 
 
 

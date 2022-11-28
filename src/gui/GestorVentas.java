@@ -1,158 +1,313 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.EventQueue;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Dialog.ModalExclusionType;
+import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
-import java.awt.event.MouseListener;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JCheckBoxMenuItem;
+import com.toedter.calendar.JDateChooser;
+
+import CapaNegocio.NgcVenta;
+import Clases.Venta;
+import Formulario.EliminarRegistroFrm;
+import Formulario.ModificaRegistroFrm;
+import Formulario.RegistroFrm;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
-public class GestorVentas extends JDialog  {
-
-	DefaultTableModel modelo=new DefaultTableModel();
+public class GestorVentas extends JFrame implements ActionListener {
+	
+	private NgcVenta NgcVenta;
+	private ArrayList<Venta> ListaVenta;
+	private Venta ObjV;
 	private JPanel contentPane;
-	private JLabel lblInicio;
-	private JLabel lblAñadir;
-	private JLabel lblModificar;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
-	private JLabel lblAñadirVenta;
+	private JLabel lblAadirVenta;
 	private JLabel lblModificarVenta;
-	private JLabel lblListar;
-	private JLabel lblBorrar;
-	private JLabel lblListarVentas;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JLabel lblListaVentarVentas;
 	private JLabel lblBorrarVenta;
-	private JLabel lblSalir;
+	private JLabel lblNewLabel_6;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private static int Dni; 
-
-	
-	
-	private final JPanel contentPanel = new JPanel();
+	private JLabel lblCdigoDeVenta;
+	private JLabel lblDesde;
+	private JLabel lblHasta;
+	private JDateChooser dcFecDes;
+	private JDateChooser dcFecHas;
+	private JButton btnBuscar;
+	private JMenuBar menuBar;
+	private JMenu mnNewMenu;
+	private JMenuItem mnExportar;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			GestorVentas dialog = new GestorVentas(Dni);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public void CargarTabla(){
+		String Columnas []={"Id-Ventas","Nombre","Unidad","Cantidad","Precio Unitario","Sub-Total","IGV","Importe a Pagar","Fecha"};
+		NgcVenta =new NgcVenta();
+		ListaVenta = NgcVenta.Lista();
+		String filas[][]=new String[ListaVenta.size()][9];
+		for(int i=0;i<ListaVenta.size();i++){
+			filas[i][0]=String.valueOf(ListaVenta.get(i).getCodigo());
+			filas[i][1]=ListaVenta.get(i).getNombre();
+			filas[i][2]=ListaVenta.get(i).getUnidad();
+			filas[i][3]=String.valueOf(ListaVenta.get(i).getCantidad());
+			filas[i][4]=String.valueOf(ListaVenta.get(i).getPrecioUnitario());
+			filas[i][5]=String.valueOf(ListaVenta.get(i).SubTotal());
+			filas[i][6]=String.valueOf(ListaVenta.get(i).IGV());
+			filas[i][7]=String.valueOf(ListaVenta.get(i).ImportePagar());
+			filas[i][8]=ListaVenta.get(i).getFecha();
 		}
+		DefaultTableModel modelo=new DefaultTableModel(filas,Columnas);
+		table.setModel(modelo);
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GestorVentas frame = new GestorVentas();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
-	 * Create the dialog.
+	 * Create the frame.
 	 */
-	public GestorVentas(int code) {
-		Dni = code;
-		setModal(true);
-		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	public GestorVentas() {
 		setTitle("Gestor de Ventas");
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1200, 800);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnNewMenu = new JMenu("Mas");
+		menuBar.add(mnNewMenu);
+		
+		mnExportar = new JMenuItem("Exportar PDF");
+		mnExportar.addActionListener(this);
+		mnNewMenu.add(mnExportar);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(153, 204, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(new Color(156,219,220));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblInicio = new JLabel("New label");
-		lblInicio.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/img_01.png")));
-		lblInicio.setBounds(439, 50, 320, 334);
-		contentPane.add(lblInicio);
+		lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/img_01.png")));
+		lblNewLabel.setBounds(439, 50, 320, 334);
+		contentPane.add(lblNewLabel);
 		
-		lblAñadir = new JLabel("");
-		lblAñadir.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/insertar.png")));
-		lblAñadir.setBounds(58, 169, 128, 128);
-		contentPane.add(lblAñadir);
+		lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				mouseClickedLblNewLabel_1(arg0);
+			}
+		});
+		lblNewLabel_1.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/insertar.png")));
+		lblNewLabel_1.setBounds(58, 169, 128, 128);
+		contentPane.add(lblNewLabel_1);
 		
-		lblModificar = new JLabel("New label");
-		lblModificar.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/editar.png")));
-		lblModificar.setBounds(258, 169, 128, 128);
-		contentPane.add(lblModificar);
+		lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				mouseClickedLblNewLabel_2(arg0);
+			}
+		});
+		lblNewLabel_2.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/editar.png")));
+		lblNewLabel_2.setBounds(258, 169, 128, 128);
+		contentPane.add(lblNewLabel_2);
 		
 		lblNewLabel_3 = new JLabel("Bienvenido");
-		lblNewLabel_3.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
+		lblNewLabel_3.setFont(new Font("Bodoni MT Black", Font.BOLD, 25));
 		lblNewLabel_3.setBounds(467, 389, 153, 30);
 		contentPane.add(lblNewLabel_3);
 		
-		lblAñadirVenta = new JLabel("A\u00F1adir Venta");
-		lblAñadirVenta.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
-		lblAñadirVenta.setBounds(47, 302, 153, 30);
-		contentPane.add(lblAñadirVenta);
+		lblAadirVenta = new JLabel("A\u00F1adir Venta");
+		lblAadirVenta.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
+		lblAadirVenta.setBounds(47, 302, 153, 30);
+		contentPane.add(lblAadirVenta);
 		
 		lblModificarVenta = new JLabel("Modificar Venta");
 		lblModificarVenta.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
 		lblModificarVenta.setBounds(235, 305, 179, 24);
 		contentPane.add(lblModificarVenta);
 		
-		lblListar = new JLabel("New label");
-		lblListar.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/lista.png")));
-		lblListar.setBounds(805, 169, 128, 128);
-		contentPane.add(lblListar);
+		lblNewLabel_4 = new JLabel("New label");
+		lblNewLabel_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				mouseClickedLblNewLabel_4(arg0);
+			}
+		});
+		lblNewLabel_4.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/lista.png")));
+		lblNewLabel_4.setBounds(805, 169, 128, 128);
+		contentPane.add(lblNewLabel_4);
 		
-		lblBorrar = new JLabel("New label");
-		lblBorrar.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/Eliminar.png")));
-		lblBorrar.setBounds(1014, 169, 128, 128);
-		contentPane.add(lblBorrar);
+		lblNewLabel_5 = new JLabel("New label");
+		lblNewLabel_5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				mouseClickedLblNewLabel_5(arg0);
+			}
+		});
+		lblNewLabel_5.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/Eliminar.png")));
+		lblNewLabel_5.setBounds(1014, 169, 128, 128);
+		contentPane.add(lblNewLabel_5);
 		
-		lblListarVentas = new JLabel("Listar Ventas");
-		lblListarVentas.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
-		lblListarVentas.setBounds(789, 305, 179, 24);
-		contentPane.add(lblListarVentas);
+		lblListaVentarVentas = new JLabel("ListaVentar");
+		lblListaVentarVentas.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
+		lblListaVentarVentas.setBounds(789, 305, 179, 24);
+		contentPane.add(lblListaVentarVentas);
 		
 		lblBorrarVenta = new JLabel("Borrar Venta");
 		lblBorrarVenta.setFont(new Font("Bodoni MT Black", Font.BOLD, 20));
-		
 		lblBorrarVenta.setBounds(999, 305, 153, 24);
 		contentPane.add(lblBorrarVenta);
 		
-		lblSalir = new JLabel("");
-		lblSalir.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent arg0) {
-				dispose();
-				MenuPrincipal mp = new MenuPrincipal(code);
-				mp.setLocationRelativeTo(contentPane);
-				mp.setVisible(true);
-			}
-		
-		});
-		lblSalir.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/regresar_Menu.png")));
-		lblSalir.setBounds(10, 20, 64, 64);
-		contentPane.add(lblSalir);
+		lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setIcon(new ImageIcon(GestorVentas.class.getResource("/img/regresar_Menu.png")));
+		lblNewLabel_6.setBounds(10, 20, 64, 64);
+		contentPane.add(lblNewLabel_6);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 461, 1164, 267);
+		scrollPane.setBounds(10, 461, 1190, 267);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
-		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
-		table.setModel(modelo);
-		modelo.addColumn("Campo 1");
-		modelo.addColumn("Campo 2");
-		modelo.addColumn("Campo 3");
-		modelo.addColumn("Campo 4");
-		modelo.addColumn("Campo 5");
+
+		
+		
+		
+		lblCdigoDeVenta = new JLabel("Fecha de Venta");
+		lblCdigoDeVenta.setFont(new Font("Bodoni MT Black", Font.BOLD, 18));
+		lblCdigoDeVenta.setBounds(10, 362, 164, 22);
+		contentPane.add(lblCdigoDeVenta);
+		
+		lblDesde = new JLabel("Desde");
+		lblDesde.setFont(new Font("Bodoni MT Black", Font.BOLD, 18));
+		lblDesde.setBounds(10, 395, 164, 22);
+		contentPane.add(lblDesde);
+		
+		lblHasta = new JLabel("Hasta");
+		lblHasta.setFont(new Font("Bodoni MT Black", Font.BOLD, 18));
+		lblHasta.setBounds(10, 421, 161, 22);
+		contentPane.add(lblHasta);
+		
+		dcFecDes = new JDateChooser();
+		dcFecDes.setDateFormatString("yyyy-M-dd");
+		dcFecDes.setBounds(82, 393, 125, 26);
+		contentPane.add(dcFecDes);
+		
+		dcFecHas = new JDateChooser();
+		dcFecHas.setDateFormatString("yyyy-M-dd");
+		dcFecHas.setBounds(82, 419, 125, 26);
+		contentPane.add(dcFecHas);
+		
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnBuscar(e);
+			}
+		});
+		btnBuscar.setBounds(225, 392, 115, 29);
+		contentPane.add(btnBuscar);
+		
+		
+		CargarTabla();
+		
+		
 		
 	}
-
-
-
+	protected void mouseClickedLblNewLabel_1(MouseEvent arg0) {
+		RegistroFrm R=new RegistroFrm();
+		R.setVisible(true);
+		
+	}
+	protected void mouseClickedLblNewLabel_4(MouseEvent arg0) {
+		CargarTabla();
+	}
+	protected void mouseClickedLblNewLabel_2(MouseEvent arg0) {
+		ModificaRegistroFrm M=new ModificaRegistroFrm();
+		M.setVisible(true);
+	}
+	public String fechaD(){
+		Date fecha=dcFecDes.getDate();
+		SimpleDateFormat FormatoFecha=new SimpleDateFormat("YYYY/M/dd");
+		return FormatoFecha.format(fecha);
+	}
+	public String fechaH(){
+		Date fecha=dcFecHas.getDate();
+		SimpleDateFormat FormatoFecha=new SimpleDateFormat("YYYY/M/dd");
+		return FormatoFecha.format(fecha);
+	}
+	protected void actionPerformedBtnBuscar(ActionEvent e) {
+		String Columnas []={"Id-Ventas","Nombre","Unidad","Cantidad","Precio Unitario","Sub-Total","IGV","Importe a Pagar","Fecha"};
+		NgcVenta=new NgcVenta();
+		ListaVenta =NgcVenta.Buscar(fechaD(), fechaH());
+		String filas[][]=new String[ListaVenta.size()][9];
+		for(int i=0;i<ListaVenta.size();i++){
+			filas[i][0]=String.valueOf(ListaVenta.get(i).getCodigo());
+			filas[i][1]=ListaVenta.get(i).getNombre();
+			filas[i][2]=ListaVenta.get(i).getUnidad();
+			filas[i][3]=String.valueOf(ListaVenta.get(i).getCantidad());
+			filas[i][4]=String.valueOf(ListaVenta.get(i).getPrecioUnitario());
+			filas[i][5]=String.valueOf(ListaVenta.get(i).SubTotal());
+			filas[i][6]=String.valueOf(ListaVenta.get(i).IGV());
+			filas[i][7]=String.valueOf(ListaVenta.get(i).ImportePagar());
+			filas[i][8]=ListaVenta.get(i).getFecha();
+		}
+		DefaultTableModel modelo=new DefaultTableModel(filas,Columnas);
+		table.setModel(modelo);
+	}
+	protected void mouseClickedLblNewLabel_5(MouseEvent arg0) {
+		EliminarRegistroFrm E=new EliminarRegistroFrm();
+		E.setVisible(true);
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == mnExportar) {
+			actionPerformedmnExportar(e);
+		}
+	}
+	protected void actionPerformedmnExportar(ActionEvent e) {
+		
+		
+		
+		
+	}
 }

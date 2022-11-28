@@ -82,7 +82,7 @@ public class FrmEditarVendedor extends JDialog implements ActionListener {
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmEditarVendedor.class.getResource("/img/ico.png")));
 		setTitle("Editar Vendedor");
-		setBounds(100, 100, 328, 595);
+		setBounds(100, 100, 335, 595);
 		getContentPane().setBackground(new Color(176, 224, 230));
 		getContentPane().setLayout(null);
 		

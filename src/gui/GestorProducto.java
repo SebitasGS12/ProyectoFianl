@@ -14,6 +14,7 @@ import org.w3c.dom.css.RGBColor;
 
 import CapaNegocio.NgcProducto;
 import Clases.Producto;
+import Jasper.Reporte;
 
 import java.awt.Toolkit;
 import javax.swing.JSplitPane;
@@ -175,6 +176,7 @@ public class GestorProducto extends JDialog implements MouseListener, ActionList
 		panelMenu.add(btnEditarProducto);
 		
 		btnExportarDatos = new JButton("<html>Exportar<br>Datos</html>");
+		btnExportarDatos.addActionListener(this);
 		btnExportarDatos.setIcon(new ImageIcon(GestorProducto.class.getResource("/img/imgExportarDatos.png")));
 		btnExportarDatos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnExportarDatos.setFocusable(false);
@@ -303,6 +305,9 @@ public class GestorProducto extends JDialog implements MouseListener, ActionList
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnExportarDatos) {
+			actionPerformedBtnExportarDatos(e);
+		}
 		if (e.getSource() == btnFiltroDetalle) {
 			actionPerformedBtnFiltroDetalle(e);
 		}
@@ -673,5 +678,12 @@ String Columnas[] = {"ID_PrO", "Nombre", "Precio", "Detalle"};
 		tabla.setModel(MiModelo);
 		
 		txtID.setText(gPro.CodigoAutogenerado()+"");
+	}
+	protected void actionPerformedBtnExportarDatos(ActionEvent e) {
+		
+		Reporte ri = new Reporte("src/Jasper/ReporteVendedor.jasper");
+		ri.setLocationRelativeTo(getContentPane());
+		ri.setVisible(true);	
+		
 	}
 }

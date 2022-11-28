@@ -64,6 +64,8 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	 */
 	NgcPersona gPer = new NgcPersona();
 	NgcAdmin gAdm = new NgcAdmin();
+	private JButton btnProducto;
+	private JLabel lblgestorDeS;
 	
 	
 	
@@ -82,31 +84,47 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		btnVentas = new JButton("");
 		btnVentas.addActionListener(this);
 		
+		lblgestorDeS = new JLabel("<html>Gestor De <br>Productos</html>");
+		lblgestorDeS.setHorizontalAlignment(SwingConstants.CENTER);
+		lblgestorDeS.setForeground(new Color(0, 191, 255));
+		lblgestorDeS.setFont(new Font("Verdana", Font.BOLD, 25));
+		lblgestorDeS.setBounds(596, 384, 166, 61);
+		contentPane.add(lblgestorDeS);
+		
+		btnProducto = new JButton("");
+		btnProducto.addActionListener(this);
+		btnProducto.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/btnInventario.png")));
+		btnProducto.setDefaultCapable(false);
+		btnProducto.setContentAreaFilled(false);
+		btnProducto.setBorderPainted(false);
+		btnProducto.setBounds(562, 133, 231, 402);
+		contentPane.add(btnProducto);
+		
 		lblgestorDeInventario = new JLabel("<html>Gestor De <br> Inventario</html>");
 		lblgestorDeInventario.setForeground(new Color(0, 191, 255));
 		lblgestorDeInventario.setFont(new Font("Verdana", Font.BOLD, 25));
 		lblgestorDeInventario.setHorizontalAlignment(SwingConstants.CENTER);
-		lblgestorDeInventario.setBounds(464, 384, 166, 61);
+		lblgestorDeInventario.setBounds(327, 384, 166, 61);
 		contentPane.add(lblgestorDeInventario);
 		
 		lblgestorDeVentas = new JLabel("<html>Gestor De <br> Ventas</html>");
 		lblgestorDeVentas.setForeground(new Color(0, 191, 255));
 		lblgestorDeVentas.setFont(new Font("Verdana", Font.BOLD, 25));
 		lblgestorDeVentas.setHorizontalAlignment(SwingConstants.CENTER);
-		lblgestorDeVentas.setBounds(836, 384, 166, 61);
+		lblgestorDeVentas.setBounds(860, 384, 166, 61);
 		contentPane.add(lblgestorDeVentas);
 		
 		lblNewLabel = new JLabel("<html>Gestor De <br> Vendedores </html>");
 		lblNewLabel.setForeground(new Color(34, 139, 34));
 		lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 25));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(117, 277, 166, 64);
+		lblNewLabel.setBounds(56, 272, 166, 64);
 		contentPane.add(lblNewLabel);
 		btnVentas.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/btnVentas.png")));
 		btnVentas.setDefaultCapable(false);
 		btnVentas.setContentAreaFilled(false);
 		btnVentas.setBorderPainted(false);
-		btnVentas.setBounds(801, 133, 231, 402);
+		btnVentas.setBounds(825, 133, 231, 402);
 		contentPane.add(btnVentas);
 		
 		btnInventario = new JButton("");
@@ -116,7 +134,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		btnInventario.setDefaultCapable(false);
 		btnInventario.setContentAreaFilled(false);
 		btnInventario.setBorderPainted(false);
-		btnInventario.setBounds(435, 133, 231, 402);
+		btnInventario.setBounds(298, 133, 231, 402);
 		contentPane.add(btnInventario);
 		
 		btnVendedores = new JButton("");
@@ -125,7 +143,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		btnVendedores.setDefaultCapable(false);
 		btnVendedores.setContentAreaFilled(false);
 		btnVendedores.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/btnVendedores.png")));
-		btnVendedores.setBounds(87, 34, 231, 402);
+		btnVendedores.setBounds(26, 29, 231, 402);
 		contentPane.add(btnVendedores);
 		
 		btnSalir = new JButton("");
@@ -157,6 +175,9 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnProducto) {
+			actionPerformedBtnProducto(e);
+		}
 		
 		if (e.getSource() == btnInventario) {
 			actionPerformedBtnInventario(e);
@@ -174,7 +195,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	protected void actionPerformedBtnVentas(ActionEvent e) {
 		
 		dispose();
-		GestorVentas gv = new GestorVentas(this.Dni);
+		GestorVentas gv = new GestorVentas();
 		gv.setLocationRelativeTo(contentPane);
 		gv.setVisible(true);
 		
@@ -211,7 +232,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		
 
 		dispose();
-		GestorProducto gi = new GestorProducto(this.Dni);
+		GestorInventario gi = new GestorInventario(this.Dni);
 		gi.setLocationRelativeTo(contentPane);
 		gi.setVisible(true);
 
@@ -244,4 +265,13 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		
 	}
 	
+	protected void actionPerformedBtnProducto(ActionEvent e) {
+		
+		dispose();
+		GestorProducto gp = new GestorProducto(this.Dni);
+		gp.setLocationRelativeTo(contentPane);
+		gp.setVisible(true);
+		
+		
+	}
 }

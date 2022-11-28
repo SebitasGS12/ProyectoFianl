@@ -6,8 +6,19 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/mysql-connector-java-5.1.6-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/activation-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/javamail-1.4.5/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/OneDrive - CIBERTEC/CIBERTEC CICLO 3/Lenguaje de Programacion I/Proyecto/ProyectoFinal/Jar/mysql-connector-java-5.1.6-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/itextpdf-5.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/itext-pdfa-5.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/jasperreports-6.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LENOVO/Documents/Jar/mariadb-java-client-1.1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
