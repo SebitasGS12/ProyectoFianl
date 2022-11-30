@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class FrmEditarRelacion extends JDialog implements ActionListener {
 
@@ -75,6 +76,9 @@ public class FrmEditarRelacion extends JDialog implements ActionListener {
 	 * 
 	 */
 	public FrmEditarRelacion(int idPE) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmEditarRelacion.class.getResource("/img/ico.png")));
+		setTitle("Editar Relacion");
+		setModal(true);
 		idpeInicio = idPE;
 		setBounds(100, 100, 348, 482);
 		getContentPane().setLayout(new BorderLayout());

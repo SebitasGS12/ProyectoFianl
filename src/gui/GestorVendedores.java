@@ -29,6 +29,7 @@ import Clases.Persona;
 import Formulario.FrmConvertirEmpleado;
 import Formulario.FrmCrearNuevaCuenta;
 import Formulario.FrmEditarVendedor;
+import Jasper.Reporte;
 
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -497,7 +498,9 @@ public class GestorVendedores extends JDialog implements ActionListener, MouseLi
 	}
 	protected void actionPerformedMntmNewMenuItem(ActionEvent e) {
 		
-		
+		Reporte ri = new Reporte("src/Jasper/ReporteVendedor.jasper");
+		ri.setLocationRelativeTo(getContentPane());
+		ri.setVisible(true);	
 		
 		
 	}

@@ -22,6 +22,7 @@ import Clases.Venta;
 import Formulario.EliminarRegistroFrm;
 import Formulario.ModificaRegistroFrm;
 import Formulario.RegistroFrm;
+import Jasper.Reporte;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -306,7 +307,16 @@ public class GestorVentas extends JFrame implements ActionListener {
 	}
 	protected void actionPerformedmnExportar(ActionEvent e) {
 		
-		
+		try {
+			
+			Reporte ri = new Reporte("src/Jasper/ReporteVentas.jasper");
+			ri.setLocationRelativeTo(getContentPane());
+			ri.setVisible(true);	
+			
+		} catch (Exception e2) {
+			
+			System.out.println(e2);
+		}
 		
 		
 	}

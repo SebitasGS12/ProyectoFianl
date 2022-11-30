@@ -25,7 +25,7 @@ public class Ayuda extends JDialog implements ActionListener {
 	private JButton btnInfo;
 	private JButton btnManual;
 	private JLabel lblAcerca;
-	private String informe = "https://docs.google.com/document/d/1SAlOkb8df6uCPOmRMIG9-CgZT9qXIOdS/edit?usp=sharing&ouid=109918201001160918039&rtpof=true&sd=true" ;
+	private String informe = "https://docs.google.com/document/d/1IsFkbdC36UUa60VAIfYTm4hPXycoxhy4/edit?usp=sharing&ouid=109918201001160918039&rtpof=true&sd=true" ;
 	private String  videoManual = "";
 
 	/**

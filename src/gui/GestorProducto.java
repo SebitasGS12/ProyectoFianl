@@ -681,9 +681,9 @@ String Columnas[] = {"ID_PrO", "Nombre", "Precio", "Detalle"};
 	}
 	protected void actionPerformedBtnExportarDatos(ActionEvent e) {
 		
-		Reporte ri = new Reporte("src/Jasper/ReporteVendedor.jasper");
+		Reporte ri = new Reporte("src/Jasper/ReporteProducto.jasper");
 		ri.setLocationRelativeTo(getContentPane());
-		ri.setVisible(true);	
+		ri.setVisible(true);
 		
 	}
 }
